@@ -23,9 +23,7 @@ mysql-connector-python==8.4.0
 mysqlclient==2.2.4
 packaging==24.2
 passlib==1.7.4
-pypiwin32==223
 pyttsx3==2.98
-pywin32==308
 requests==2.32.3
 urllib3==2.3.0
 uuid==1.30
