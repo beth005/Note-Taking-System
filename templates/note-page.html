@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Note</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
+    <style>
+        .speech-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .navbar-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            z-index: 10;
+        }
+        .container-fluid.px-4 {
+            margin-left: 200px; /* Match the width of the navbar */
+            width: calc(100% - 200px); /* Prevent overflow */
+            padding-top: 20px; /* Optional: Add top padding */
+        }
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .navbar-container {
+                position: static;
+                width: 100%;
+                height: auto;
+            }
+
+            .container-fluid.px-4 {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body style="background-color: #f0f8ff;">
+    <div class="d-flex flex-column flex-md-row">
+        <div class="navbar-container">
+            {% include 'navbar.html' %}
+        </div>
+
+        <div class="container-fluid px-4">
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show mt-3" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <h2 class="mt-4">Add a New Note</h2>
+
+            <form action="{{ url_for('mynote', folder_id=folder_id) }}" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="title" class="form-label"><strong>Title</strong></label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter note title" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="content" class="form-label"><strong>Note Content</strong></label>
+                    <textarea class="form-control" id="content" name="content"></textarea>
+                    <button type="button" class="speech-btn" id="speech-to-text-button"><i class="fas fa-microphone"></i></button> </div>
+
+               <!--<div class="mb-3">
+                    <label for="file" class="form-label"><strong>Attach Files</strong></label>
+                    <input type="file" class="form-control" id="file" name="file">
+                </div>-->
+
+                <button type="submit" class="btn btn-primary">➕ Add Note</button>
+            </form>
+
+            
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        CKEDITOR.replace('content'); // Initialize CKEditor
+    
+        const speechButton = document.getElementById('speech-to-text-button');
+        let recognition;
+        let isRecognizing = false; // Track recognition state
+    
+        if (speechButton) {
+            speechButton.addEventListener('click', () => {
+                if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    
+                    if (!recognition) {
+                        recognition = new SpeechRecognition();
+                        recognition.continuous = true;
+                        recognition.interimResults = true;
+    
+                        recognition.onstart = () => {
+                            isRecognizing = true;
+                            speechButton.innerHTML = '<i class="fas fa-microphone-slash"></i>';
+                        };
+    
+                        recognition.onresult = (event) => {
+                            const result = event.results[event.resultIndex];
+                            const transcript = result[0].transcript;
+    
+                            if (result.isFinal) {
+                                CKEDITOR.instances.content.insertHtml(transcript + " ");
+                            }
+                        };
+    
+                        recognition.onerror = (event) => {
+                            console.error('Speech recognition error:', event.error);
+                            alert("Speech recognition error: " + event.error);
+                        };
+    
+                        recognition.onend = () => {
+                            isRecognizing = false;
+                            speechButton.innerHTML = '<i class="fas fa-microphone"></i>';
+                        };
+                    }
+    
+                    if (!isRecognizing) {
+                        recognition.start();
+                    } else {
+                        recognition.stop();
+                    }
+                } else {
+                    alert('Speech Recognition API not supported in this browser.');
+                }
+            });
+        } else {
+            console.error("Speech-to-text button not found!");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Note</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Add any necessary styles here */
+        #note-content {
+            white-space: pre-wrap; /* Preserve line breaks and wrap text */
+        }
+        .img-fluid{
+            max-width: 50%;
+            height: auto;
+        }
+        .navbar-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            z-index: 10;
+        }
+        .container-fluid.px-4 {
+            margin-left: 200px; /* Match the width of the navbar */
+            width: calc(100% - 200px); /* Prevent overflow */
+            padding-top: 20px; /* Optional: Add top padding */
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .navbar-container {
+                position: static;
+                width: 100%;
+                height: auto;
+            }
+
+            .container-fluid.px-4 {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px;
+            }
+        }
+        
+    </style>
+</head>
+<body style="background-color: #f0f8ff;">
+    <div class="d-flex flex-column flex-md-row">
+        <div class="navbar-container">
+            {% include 'navbar.html' %}
+        </div>
+        <div class="container-fluid px-4">
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <h3>Welcome, {{ session.email }}!</h3>  </div>
+
+            <h2>View Note</h2>  <hr>
+
+            {% if note.file_type == 'image' %}
+                <img src="{{ url_for('display_image', filename=note.file_path) }}" alt="Note Image" class="img-fluid">
+            {% elif note.file_type == 'file' %}
+                <a href="{{ url_for('download_file', filename=note.file_path) }}" target="_blank">Download File</a>
+            {% else %}  <div id="note-content" readonly>{{ note.content | safe }}</div>
+                <button id="text-to-speech" class="btn btn-primary mt-3" onclick="speakText()">Text to Speech</button>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let audio = null;  // Store the current playing audio
+let isPaused = false;  // Track pause state
+
+function speakText() {
+    var text = document.getElementById("note-content").innerText;
+
+    if (audio) {  
+        if (isPaused) {
+            audio.play();  // Resume if paused
+            isPaused = false;
+        } else {
+            audio.pause();  // Pause if playing
+            isPaused = true;
+        }
+        return;
+    }
+
+    fetch('/speak', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'text=' + encodeURIComponent(text)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(err => { throw new Error(err); });
+        }
+        return response.blob();
+    })
+    .then(blob => {
+        const audioUrl = URL.createObjectURL(blob);
+        audio = new Audio(audioUrl);
+
+        audio.play();
+        isPaused = false;
+
+        audio.onended = function() {
+            audio = null;
+            isPaused = false; // Reset when audio finishes
+        };
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+
+    </script>
+</body>
+</html>

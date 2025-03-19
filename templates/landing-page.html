@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyNote</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <style>
+    body{
+      overflow-x: hidden;
+    }
+    nav.navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000; /* Keeps the navbar on top */
+      background-color: white; /* To make sure it is visible */
+    }
+
+    /* Adds a horizontal line under the navbar */
+    hr {
+      position: fixed;
+      top: 56px; /* Adjusted to be right below the navbar */
+      width: 100%;
+      border: 0;
+      border-top: 2px solid #000;
+      margin: 0;
+      z-index: 999; /* Keeps the line below the navbar */
+    }
+
+    /* Ensures the content starts below the horizontal line */
+    .content {
+      margin-top: 80px; /* Adjusted to account for the navbar height */
+    }
+
+    h2{
+      font-family: "Inter", serif;
+      font-weight: bolder;
+      font-style: normal;
+    }
+
+    p{
+      font-family: "Nunito", serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    .img-fluid {
+      max-width: 100%; /* Make images fully responsive */
+      height: auto;
+  }
+
+  .mt-5 img {
+      max-width: 100%;
+      height: auto;
+  }
+
+  @media (max-width: 768px) {
+      .navbar-brand {
+          margin-left: 0 !important;
+      }
+
+      .d-flex {
+          margin-right: 0 !important;
+      }
+
+      .content {
+          padding: 0 15px; /* Add padding on mobile */
+      }
+
+      .mt-5 img {
+          margin-top: 20px;
+      }
+  }
+    
+    
+  </style>
+</head>
+<body style="background-color: #f0f8ff; padding-top: 56px">
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#" style="margin-left:10%">MyNote</a>
+        <ul class="navbar-nav mb-2 mb-lg-0 mx-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#how-it-works" tabindex="-1">How it works</a>
+          </li>
+        </ul>
+        
+        <div class="d-flex" style="margin-right: 10%;">
+          <a class="btn btn-outline-primary me-2" href="sign-in" target="_self">Log In</a>
+          <a class="btn btn-outline-primary" href="/sign-up" target="_self">Sign Up</a>
+        </div>
+      
+      </div>
+    </div>
+  </nav>
+  <hr>
+
+  <div class="container mt-5 content">
+    <div class="row">
+      <div class="col-12 col-md-6">
+          <div class="mt-4">
+            <h1 class="d-inline" style="font-family:Bebas Neue, serif; font-weight:400; ; text-shadow:2px 2px 5px rgb(0, 174, 255)">Create.</h1>
+            <h1 class="d-inline" style="font-family:Bebas Neue, serif; font-weight:400; color:white; text-shadow:2px 2px 5px black">Organize.</h1>
+          </div>
+          <div class="mt-3">
+            <h1 class="d-inline" style="font-family:Bebas Neue, serif; font-weight:400; color:white; text-shadow:2px 2px 5px black">Share.</h1>
+            <h1 class="d-inline-block" style="border-style:dotted; border-color:rgb(0, 174, 255); transform:rotate(-20deg); color:rgb(0, 174, 255); font-weight:bolder">Easily.</h1>
+          </div>
+        
+        <div class="row mt-5" id="about">
+          <p style="line-height: 3.0;">Welcome to MyNote, your personal workspace to organize notes effortlessly. Create folders, manage notes, recover deleted items, and search with ease. 
+            Download or share notes securely, all in one place. 
+            Simplify your productivity with MyNote today!</p>
+        </div>
+        <div class="row mt-5">
+          <div>
+            <a class="btn btn-outline-primary me-5" href="/sign-in">Log In</a>
+            <a class="btn btn-primary rounded" href="/sign-up">Sign Up</a>
+          </div>
+        </div>
+        <!--<h1 class="d-inline">CREATE.</h1>
+        <h1 class="d-inline">Organize.</h1>
+        <h1 class="d-inline">SHARE.</h1>
+        <h1 class="d-inline">EASILY.</h1>-->
+      </div>
+      <div class="col-md-6">
+        <img src="{{url_for('static', filename='images/landing-page1-removebg-preview.png')}}" alt="" class="img-fluid h-100">
+      </div>
+    </div>
+  </div>
+    <div class="row bg-primary p-5 text-light" style="text-align:center; margin-top:10%;">
+      <p style="line-height: 3.0; font-size:larger;">MyNote is a versatile and intuitive note-taking app designed to help you create, organize, and share your ideas effortlessly. <br>
+        Whether you're managing personal notes, organizing projects, or collaborating with others, MyNote makes it easy to stay organized and productive. <br> 
+        With features like folder management, search, file sharing, and a secure trash feature, <br>MyNote offers a seamless experience to help you keep your thoughts in one place. 
+        Get started today and simplify your note-taking process.</p>
+    </div>
+
+    <div class="row mt-5" style="text-align: center;">
+      <h2>What Can You Do with MyNote? Let’s Find Out!</h2>
+    </div>
+
+  <div class="container" id="how-it-works">
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <img src="{{url_for('static', filename='images/creation.png')}}" alt="">
+      </div>
+      <div class="col-12 col-md-6">
+        <h2>Note Creation</h2>
+        <p style="line-height: 3.0; font-size:larger;">MyNote allows you to create detailed notes for various projects, tasks, or ideas. You can easily format your notes with headings, 
+          bullet points, and other useful elements to ensure your thoughts are clearly presented. 
+          The intuitive interface ensures that even the most complex ideas are easy to write down, organize, and track.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <h2>Folder management</h2>
+        <p style="line-height: 3.0; font-size:larger;">MyNote simplifies organizing your notes by enabling you to group them into custom folders. 
+          You can create, rename, and delete folders with ease, helping you to stay organized. You can categorize your notes based on topics, projects, or any other system that suits your needs. 
+          The drag-and-drop feature makes organizing and rearranging folders fast and intuitive.</p>
+      </div>
+      <div class="col-md-6">
+        <img src="{{url_for('static', filename='images/folder.png')}}" alt="" class="mt-0">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <img src="{{url_for('static', filename='images/search.png')}}" alt="">
+      </div>
+      <div class="col-12 col-md-6">
+        <h2>Instant Search</h2>
+        <p style="line-height: 3.0; font-size:larger;">Time is valuable, and MyNote's powerful search functionality ensures that you can find what you're looking for without any hassle. 
+          Search across your entire note database, including titles, content, and folders, to find your notes in seconds. Whether you're looking for a specific note or a keyword within your notes, 
+          MyNote helps you locate it quickly, saving you time and effort.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Share Notes</h2>
+        <p style="line-height: 3.0; font-size:larger;">MyNote lets you securely share your notes with others. Whether you want to collaborate on a project or send a note to a colleague, 
+          you can easily generate a shareable PDF link that allows others to view or download your notes. Share content instantly and conveniently, knowing that your information will be safely delivered in an easy-to-read format. 
+          The share feature is ideal for workgroups, teams, or simply sending notes to family and friends.</p>
+      </div>
+      <div class="col-md-6">
+        <img src="{{url_for('static', filename='images/sharing.png')}}" alt="">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <img src="{{url_for('static', filename='images/delete.png')}}" alt="">
+      </div>
+      <div class="col-12 col-md-6">
+        <h2>Recover Deleted Items</h2>
+        <p style="line-height: 3.0;">Mistakes happen—sometimes, you delete something important by accident. With MyNote's trash feature, you can rest easy knowing that your 
+          deleted notes are not gone forever. You can recover any note or file from the trash with just a click, so you never have to worry about losing important information. Once you’re sure you no longer need the note, 
+          you can permanently delete it from the trash.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid p-1 bg-primary text-center text-white mt-5">
+    <p class="bg-cus" style="font-size:larger;"> Designed and Developed by the members of Group 55</p>
+    <p>Bernard Elizabeth Joy 21/0204</p>
+    <p>Akpovili Samuel Denzel 21/1134</p>
+    <p>Asein Emmanuel Enahoro 21/1391</p>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>

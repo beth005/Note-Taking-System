@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://kit.fontawesome.com/4ee032b25d.js" crossorigin="anonymous"></script>
+    <style>
+      /* General styles for nav links */
+.remainder {
+  display: flex; /* Align icon and text in one row */
+  align-items: center; /* Center items vertically */
+  text-decoration: none; /* Remove underline */
+  color: #333; /* Default text color */
+  padding: 15px; /* Add spacing */
+  border-radius: 50px; /* Rounded edges */
+  transition: all 0.3s ease; /* Smooth transition */
+  border: 2px solid transparent; /* No border by default */
+}
+
+/* Hover effect */
+.remainder:hover {
+  background-color: #f8f9fa; /* Light background */
+  border-color: black; /* Blue border */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+}
+
+/* Active/click effect */
+.remainder:focus, 
+.remainder:active {
+  background-color: #e9ecef; /* Slightly darker background */
+  border-color: black; /* Keep the blue border */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Retain shadow */
+  color: black; /* Change text color */
+  outline: none; /* Remove focus outline */
+}
+
+/* Icon spacing */
+.nav-link i {
+  margin-right: 8px; /* Space between icon and text */
+}
+
+.log-out{
+  margin-top: 27%;
+  color:red;
+
+}
+
+/* Hamburger button */
+.menu-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1000;
+  background: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.menu-btn:focus {
+  outline: none;
+}
+
+/* Media query for small screens 
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+     No additional styles needed here, as Bootstrap classes handle visibility 
+}*/
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.show {
+    transform: translateX(0);
+  }
+}
+@media (max-width: 768px) {
+  .sidebar {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #f8f9fa;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .sidebar.show {
+    display: flex !important; /* Override Bootstrap's d-none */
+    transform: translateX(0);
+  }
+}
+
+
+</style>
+</head>
+<body>
+  <button class="menu-btn d-md-none">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+
+<ul class="nav flex-column h-100 d-none d-md-flex position-fixed vh-100 bg-light sidebar">
+    <li class="nav-item mt-3">
+      <a class="nav-link display-6 text-dark" aria-current="page" href="{{url_for('homepage')}}" style="font-family: Inter, serif; font-weight: bold; font-style: normal;">MyNotes</a>
+    </li>
+    <li class="nav-item  mt-5 ms-4 d-flex align-items-center">
+      <i class="fa-solid fa-book"></i><a class="nav-link ms-2 remainder" href="{{url_for('homepage')}}">Notes</a>
+    </li>
+    <li class="nav-item ms-4 mt-3 d-flex align-items-center">
+      <i class="fa-solid fa-user-plus"></i><a class="nav-link remainder" href="{{url_for('shared_notes')}}">Shared</a>
+    </li>
+    <li class="nav-item ms-4 mt-3 d-flex align-items-center">
+      <i class="fa-solid fa-trash"></i>
+      <a class="nav-link ms-2 remainder" href="{{ url_for('trash') }}">Trash</a>
+    </li>
+    <li class="nav-item ms-4 mt-auto d-flex align-items-center">
+      <i class="fa-solid fa-arrow-right-from-bracket log-out" style="color: red;"></i>
+      <a class="nav-link ms-2 remainder text-danger log-out" href="/logout">Log Out</a>
+    </li>
+  </ul>
+    
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script>
+    document.querySelector(".menu-btn").addEventListener("click", function() {
+      let sidebar = document.querySelector(".sidebar");
+      sidebar.classList.toggle("show");
+      sidebar.classList.toggle("d-none"); // Toggle Bootstrap's d-none
+    });
+    
+  </script>
+</body>
+</html>
